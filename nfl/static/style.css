@@ -1,0 +1,157 @@
+body {
+    font-family: Optima, sans-serif;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+
+.grid-pickem{
+    /* margin: auto auto; */
+    /* width: min(90%, 75rem); */
+    display: grid;
+    grid-template-columns: 5% 10% 10% 10% 10% 10% 10% 10% 10% 10% 5%;
+}
+
+.grid-5-cols{
+    /* margin: auto auto; */
+    /* width: min(90%, 75rem); */
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.grid-7-rows{
+    width: min(90%, 75rem);
+    display: grid;
+    grid-template-rows: 2vw 2vw 4vw 4vw 2vw 4vw 4vw;
+}
+
+.grid-conference-rows{
+    width: min(90%, 75rem);
+    display: grid;
+    grid-template-rows: 2vw 2vw 4vw 2vw 4vw;
+}
+
+.grid-5-rows{
+    width: min(90%, 75rem);
+    display: grid;  
+    grid-template-rows: 50px 50px 50px 50px;
+}
+
+.grid-bracket-rows{
+    width: min(90%, 75rem);
+    display: grid;
+    grid-template-rows: 2vw 4vw 4vw 4vw;
+}
+
+.grid-superbowl-rows{
+    width: min(90%, 75rem);
+    display: grid;
+    grid-template-rows: 2vw 2vw 4vw;
+}
+
+.grid-2-cols{
+    width: min(90%, 75rem);
+    display: grid;
+    grid-template-columns: 50% 50%;
+}
+
+.team{
+    width:25%;
+    /* height:20%; */
+}
+
+.team-pickem{
+    width: 100%;
+}
+
+.team-bracket{
+    width: 20%;
+}
+
+.center-heading {
+    margin-top: 25px;
+    text-align: center;
+    font-size: 1.5vw;
+}
+
+.center-bracket-player{
+    margin-top: 25px;
+    text-align: left;
+    margin-left: 5%;
+    margin-right: 5%;
+    border-bottom-style: solid;
+    border-bottom-color: lightgrey;
+    border-bottom-width: 1px;
+    font-size: 1.2vw;
+}
+
+.center {
+    text-align: center;
+    padding: auto;
+    margin: auto;
+}
+
+.title {
+    text-align: center;
+    /* padding: auto;
+    margin: auto; */
+    font-size: 2vw;
+}
+
+.conference {
+    text-align: center;
+    padding: auto;
+    margin: auto;
+    font-size: 1vw;
+}
+
+.bracket-round {
+    text-align: center;
+    padding: auto;
+    margin: auto;
+    font-size: 1vw;
+}
+
+.player {
+    text-align: center;
+    border-bottom-style: solid;
+    border-bottom-color: lightgrey;
+    border-bottom-width: 1px;
+    font-size: 1vw;
+}
+
+.conference {
+    text-align: center;
+    font-size: 1vw;
+}
+
+.top-of-page {
+    display: grid;
+    grid-template-columns: 20% 60% 20%;
+}
+
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%; /* Full width */
+  }
+
+.link{
+    margin:auto;
+    text-align: center;
+    color:  blue;
+    font-size: 1vw;
+    /* margin: */
+}
+
+.win{
+    border-radius: 1vw;
+    background-image: radial-gradient(#A9DFBF, #A9DFBF, #A9DFBF, white, white);
+}   
+
+.lose{
+    border-radius: 1vw;
+    background-image: radial-gradient(#F1948A, #F1948A, #F1948A, white, white);
+}
