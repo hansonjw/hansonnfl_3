@@ -1,0 +1,27 @@
+{% extends "user/user.html" %}
+
+{% block update %}
+<div>This is the page to udpate your picks!!!</div>
+    {% for game in games %}
+    <div class="row"> 
+        {% for key in game.keys() %}
+        <div class="col">
+            <div>{{ key }}</div>
+            <div>{{ game[key] }}</div>
+        </div>
+        {% endfor %}
+     </div>
+    {% endfor %}
+
+    <div>======</div>
+
+    {% for game in games %}
+    <div class="row"> 
+        <div class="col">
+            <div>{{ game.keys() }}</div>
+        </div>
+     </div>
+    {% endfor %}
+
+
+{% endblock %}

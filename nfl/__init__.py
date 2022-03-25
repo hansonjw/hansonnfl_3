@@ -23,10 +23,15 @@ def create_app(test_config=None):
     except OSError:
         pass
     
+    from . import auth
+    app.register_blueprint(auth.bp)
     
     from . import pickem
     app.register_blueprint(pickem.bp)
     app.add_url_rule('/', endpoint='index')
+
+    from . import user
+    app.register_blueprint(user.bp)
 
     from . import db
     db.init_app(app)

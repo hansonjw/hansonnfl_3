@@ -1,3 +1,4 @@
+# This is a python module that interfaces with SQLITE...not to be confused with SQLite itself which is written in C
 import sqlite3
 
 import click
@@ -25,6 +26,8 @@ def init_db():
     db = get_db()
 
     with current_app.open_resource('schema.sql') as f:
+        db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource('seed.sql') as f:
         db.executescript(f.read().decode('utf8'))
 
 @click.command('init-db')
