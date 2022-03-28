@@ -158,3 +158,38 @@ body {
     border-radius: 1vw;
     background-image: radial-gradient(#F1948A, #F1948A, #F1948A, white, white);
 }
+
+
+
+/* ======= radio buttons ========= */
+
+#radios label {
+    cursor: pointer;
+    position: relative;
+}
+
+#radios label + label {
+margin-left: 15px;
+}
+
+input[type="radio"] {
+opacity: 0; /* hidden but still tabable */
+position: absolute;
+}
+
+input[type="radio"] + div {
+color: #B3CEFB;
+border-radius: 10%;
+padding: 10px;
+transition: all 0.4s;
+-webkit-transition: all 0.4s;
+}
+
+input[type="radio"]:checked + div {
+color: #D9E7FD;
+background-color: #4285F4;
+}
+
+input[type="radio"]:focus + span {
+color: #fff;
+}

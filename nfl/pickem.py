@@ -54,7 +54,6 @@ def newpickem():
         return url
 
     for game in games:
-        # picks[game['id']] = {'description':game['game_desc'], 'teamhome':teamUrl(game['teamhome']), 'teamvisitor':teamUrl(game['teamvisitor']), 'winner':teamUrl(game['winner'])}
         aDict = {'description':game['game_desc'], 'teamhome':teamUrl(game['teamhome']), 'teamvisitor':teamUrl(game['teamvisitor']), 'winner':teamUrl(game['winner'])}
         
         for player in players:  
@@ -86,15 +85,6 @@ def newpickem():
             headings.append('Winner')
         else:
             headings.append(key)
-
-    print('=========')
-    print("These are the picks:")
-    print(picks)
-    print("These are the headings:")
-    print(headings)
-    print("These are the players:")
-    print(players)
-    print('=========')
 
     # need to pass a dictionary...
     return render_template('newpickem.html', picks = picks, players = players, headings = headings)

@@ -17,8 +17,6 @@ def user():
         'SELECT * FROM user WHERE id=?', (g.user['id'],)
     ).fetchall()
 
-    print(type(user))
-    print(type(user[0]))
     return render_template('user/user.html', user=user)
 
 
@@ -74,23 +72,79 @@ def updateinfo():
 @bp.route('/updatepicks', methods=('GET', 'POST'))
 @login_required
 def updatepicks():
-    db = get_db()
-    try:
-        games = db.execute(
-            '''
-            SELECT g.id, g.game_desc, g.game_conf, g.teamhome, g.teamvisitor, g.winner,
-            th.id AS home_id, th.teamname AS home, tv.id AS visitor_id, tv.teamname AS visitor, tw.id AS victor_id, tw.teamname AS victor
-            FROM game g
-            LEFT JOIN team th ON g.teamhome=th.id
-            LEFT JOIN team tv ON g.teamvisitor=tv.id
-            LEFT JOIN team tw on g.winner=tw.id
-            '''
-        ).fetchall()
-    except:
-        games = "XXX"
+
+    if request.method=='POST':
+        try:
+
+            keys = request.form.keys()
+            
+            for key in keys:
+
+                tid = int(request.form[key])
+                uid = g.user['id']
+                gid = int(key)
+
+                db = get_db()
+                db.execute(
+                    '''
+                    UPDATE pick SET team_id=? WHERE user_id=? AND game_id=?
+                    ''',
+                    (tid, uid, gid)
+                )
+                db.commit()
+
+            return redirect (url_for("pickem.newpickem"))
+        except:
+            print("Error...")
+            return redirect (url_for("user.user"))
+
     else:
-        pass
-    return render_template('user/picks.html', games=games)
+        db = get_db()
+        try:
+            game_desc = db.execute(
+                '''
+                SELECT id, game_desc AS 'Game', winner AS 'Winner', teamhome AS 'Home Team', teamvisitor AS 'Visitor' FROM game
+                ORDER by id ASC
+                '''
+            ).fetchall()
+            
+            players = db.execute(
+                '''
+                SELECT id, displayname FROM user
+                '''
+            ).fetchall()
+
+            teams = db.execute(
+                '''
+                SELECT id, teamname FROM team
+                ORDER by id ASC
+                '''
+            ).fetchall()
+
+            team_dict = {}
+            for team in teams:
+                if team['id'] == 0:
+                    html_tag = "<div class='col'><img src='.././static/nfl.svg' class='team-pickem'></div>"
+                else:
+                    html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
+                team_dict[team['id']] = html_tag
+
+            playerpicks = db.execute(
+                '''
+                SELECT p.game_id, t.teamname FROM pick p
+                LEFT JOIN team t ON
+                p.team_id = t.id
+                WHERE p.user_id=?
+                ORDER BY p.game_id ASC
+                ''', (g.user['id'],)
+            ).fetchall()
+
+        except:
+            games = "XXX"
+            print(games)
+        else:
+            pass
+        return render_template('user/picks.html', playerpicks=playerpicks, game_desc=game_desc, team_dict=team_dict)
 
 
 @bp.route('/changepassword', methods=('GET', 'POST'))

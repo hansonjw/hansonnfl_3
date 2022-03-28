@@ -12,7 +12,7 @@ INSERT INTO user VALUES (3, 'ryan', 'test', 'Ryan');
 INSERT INTO user VALUES (4, 'kerry', 'test', 'Kerry');
 INSERT INTO user VALUES (5, 'keira', 'test', 'Keira');
 INSERT INTO user VALUES (6, 'tegan', 'test', 'Tegan');
-INSERT INTO user VALUES (7, 'justin', 'test', 'Justin');
+INSERT INTO user VALUES (7, 'justin', 'pbkdf2:sha256:260000$ccMfIsnDNYMKiyhd$17967bdcbe6e622016cc8cfee74841aab40e967c1ae84d27e16d970b4634136b', 'Justin');
 INSERT INTO user VALUES (8, 'regina', 'test', 'Regina');
 
 INSERT INTO team VALUES(0, 'nfl', 0);
@@ -29,13 +29,13 @@ INSERT INTO league VALUES(0, 'NFL');
 INSERT INTO league VALUES(1, 'AFC');
 INSERT INTO league VALUES(2, 'NFC');
 
-INSERT INTO game VALUES(1, 'AFC Divisional Round, Game 1', 1, "Division", 3, 5, 5);
-INSERT INTO game VALUES(2, 'AFC Divisional Round, Game 2', 1, "Division", 2, 8, 2);
-INSERT INTO game VALUES(3, 'NFC Divisional Round, Game 1', 2, "Division", 1, 6, 1);
-INSERT INTO game VALUES(4, 'NFC Divisional Round, Game 2', 2, "Division", 7, 4, 7);
-INSERT INTO game VALUES(5, 'AFC Championship', 1, "Conference", 2, 5, 2);
-INSERT INTO game VALUES(6, 'NFC Championship', 2, "Conference", 1, 7, 7);
-INSERT INTO game VALUES(7, 'Super Bowl', 0, "Super Bowl", 2, 7, 7);
+INSERT INTO game VALUES(1, 'AFC Divisional Round, Game 1', 1, "Division", 5, 3, 5);
+INSERT INTO game VALUES(2, 'AFC Divisional Round, Game 2', 1, "Division", 8, 2, 2);
+INSERT INTO game VALUES(3, 'NFC Divisional Round, Game 1', 2, "Division", 6, 1, 1);
+INSERT INTO game VALUES(4, 'NFC Divisional Round, Game 2', 2, "Division", 4, 7, 7);
+INSERT INTO game VALUES(5, 'AFC Championship', 1, "Conference", 5, 2, 2);
+INSERT INTO game VALUES(6, 'NFC Championship', 2, "Conference", 7, 1, 7);
+INSERT INTO game VALUES(7, 'Super Bowl', 0, "Super Bowl", 7, 2, 7);
 
 -- Justin's picks
 INSERT INTO pick VALUES(1, 7, 1, 5);
