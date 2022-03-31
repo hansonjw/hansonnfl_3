@@ -4,6 +4,33 @@
 <div>This is the page to udpate your picks!!!</div>
 
 <div class="container">
+    <div class="row">
+        <div class="col">Game</div>
+        {% for game in game_desc %}
+            <div class="col">
+                <div> {{ game['Game'] }}</div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">Visitor</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Visitor']]|safe }}
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">Home Team</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Home Team']]|safe }}   
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">Winner</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Winner']]|safe }}
+        {% endfor %}
+    </div>
+
     <form method="post">
 
         <div class="row">

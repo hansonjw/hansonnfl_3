@@ -108,12 +108,6 @@ def updatepicks():
                 '''
             ).fetchall()
             
-            players = db.execute(
-                '''
-                SELECT id, displayname FROM user
-                '''
-            ).fetchall()
-
             teams = db.execute(
                 '''
                 SELECT id, teamname FROM team
@@ -129,23 +123,30 @@ def updatepicks():
                     html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
                 team_dict[team['id']] = html_tag
 
-            playerpicks = db.execute(
-                '''
-                SELECT p.game_id, t.teamname FROM pick p
-                LEFT JOIN team t ON
-                p.team_id = t.id
-                WHERE p.user_id=?
-                ORDER BY p.game_id ASC
-                ''', (g.user['id'],)
-            ).fetchall()
-
         except:
             games = "XXX"
             print(games)
         else:
             pass
-        return render_template('user/picks.html', playerpicks=playerpicks, game_desc=game_desc, team_dict=team_dict)
+        return render_template('user/picks.html', game_desc=game_desc, team_dict=team_dict)
 
+
+# players = db.execute(
+#     '''
+#     SELECT id, displayname FROM user
+#     '''
+# ).fetchall()
+
+# playerpicks = db.execute(
+#     '''
+#     SELECT p.game_id, t.teamname FROM pick p
+#     LEFT JOIN team t ON
+#     p.team_id = t.id
+#     WHERE p.user_id=?
+#     ORDER BY p.game_id ASC
+#     ''', (g.user['id'],)
+# ).fetchall()
+# , playerpicks=playerpicks,
 
 @bp.route('/changepassword', methods=('GET', 'POST'))
 @login_required
