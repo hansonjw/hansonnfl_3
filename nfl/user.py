@@ -77,21 +77,21 @@ def updatepicks():
         try:
 
             keys = request.form.keys()
-            
+            queryStringList = []
             for key in keys:
-
                 tid = int(request.form[key])
                 uid = g.user['id']
                 gid = int(key)
 
-                db = get_db()
-                db.execute(
-                    '''
-                    UPDATE pick SET team_id=? WHERE user_id=? AND game_id=?
-                    ''',
-                    (tid, uid, gid)
-                )
-                db.commit()
+                queryStringList.append(f"UPDATE pick SET team_id={tid} WHERE user_id={uid} AND game_id={gid}")
+            
+            queryString = "; ".join(queryStringList) + ';'
+            print(queryStringList)
+            print(queryString)
+
+            db = get_db()
+            db.executescript(queryString)
+            db.commit()
 
             return redirect (url_for("pickem.newpickem"))
         except:
