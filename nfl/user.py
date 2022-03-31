@@ -6,8 +6,79 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from nfl.db import get_db
 from nfl.auth import login_required
 
-
 bp = Blueprint('user', __name__, url_prefix='/user')
+
+def getGames():
+    db=get_db()
+    games = db.execute(
+                '''
+                SELECT id, game_desc AS 'Game', winner AS 'Winner', teamhome AS 'Home Team', teamvisitor AS 'Visitor' FROM game
+                ORDER by id ASC
+                '''
+            ).fetchall()
+    return games
+
+def getTeamsDict():
+    db=get_db()
+    teams = db.execute(
+            '''
+            SELECT id, teamname FROM team
+            ORDER by id ASC
+            '''
+        ).fetchall()
+
+    team_dict = {}
+    for team in teams:
+        if team['id'] == 0:
+            html_tag = "<div class='col'><img src='.././static/nfl.svg' class='team-pickem'></div>"
+        else:
+            html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
+        team_dict[team['id']] = html_tag
+    return team_dict
+
+def getPlayers():
+    db=get_db()
+    players = db.execute(
+        '''
+        SELECT id, displayname FROM user WHERE id <> 0
+        '''
+    ).fetchall()
+    return players
+
+def getPlayerPicksDict():
+    playerPicksDict = {}
+    players = getPlayers()
+    
+    db=get_db()
+
+    for player in players:
+        picksDict = {}
+        rawPicks = db.execute(
+            '''
+            SELECT * FROM pick WHERE user_id=?
+            ''', (player['id'],)
+        ).fetchall()
+        for pick in rawPicks:
+            picksDict[pick['game_id']] = pick['team_id']
+        playerPicksDict[player['id']] = picksDict
+
+    # return a dictionary of dictionaires
+    # playerpicks = db.execute(
+        # '''
+        # SELECT p.game_id, t.teamname FROM pick p
+        # LEFT JOIN team t ON
+        # p.team_id = t.id
+        # WHERE p.user_id=?
+        # ORDER BY p.game_id ASC
+        # ''', (g.user['id'],)
+        '''
+        SELECT * FROM  pick ORDER BY id ASC
+        '''
+    # ).fetchall()
+    # , playerpicks=playerpicks,
+    return playerPicksDict
+
+
 
 @bp.route('/user', methods=('GET', 'POST'))
 @login_required
@@ -99,30 +170,9 @@ def updatepicks():
             return redirect (url_for("user.user"))
 
     else:
-        db = get_db()
         try:
-            game_desc = db.execute(
-                '''
-                SELECT id, game_desc AS 'Game', winner AS 'Winner', teamhome AS 'Home Team', teamvisitor AS 'Visitor' FROM game
-                ORDER by id ASC
-                '''
-            ).fetchall()
-            
-            teams = db.execute(
-                '''
-                SELECT id, teamname FROM team
-                ORDER by id ASC
-                '''
-            ).fetchall()
-
-            team_dict = {}
-            for team in teams:
-                if team['id'] == 0:
-                    html_tag = "<div class='col'><img src='.././static/nfl.svg' class='team-pickem'></div>"
-                else:
-                    html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
-                team_dict[team['id']] = html_tag
-
+            game_desc = getGames()
+            team_dict = getTeamsDict()
         except:
             games = "XXX"
             print(games)
@@ -130,23 +180,6 @@ def updatepicks():
             pass
         return render_template('user/picks.html', game_desc=game_desc, team_dict=team_dict)
 
-
-# players = db.execute(
-#     '''
-#     SELECT id, displayname FROM user
-#     '''
-# ).fetchall()
-
-# playerpicks = db.execute(
-#     '''
-#     SELECT p.game_id, t.teamname FROM pick p
-#     LEFT JOIN team t ON
-#     p.team_id = t.id
-#     WHERE p.user_id=?
-#     ORDER BY p.game_id ASC
-#     ''', (g.user['id'],)
-# ).fetchall()
-# , playerpicks=playerpicks,
 
 @bp.route('/changepassword', methods=('GET', 'POST'))
 @login_required

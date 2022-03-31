@@ -4,6 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from nfl.db import get_db
 from nfl.auth import login_required
+from nfl.user import getGames, getTeamsDict, getPlayers, getPlayerPicksDict
 
 
 bp = Blueprint('pickem', __name__)
@@ -23,9 +24,27 @@ def oldpickem():
 def pickem():
     return render_template('pickem.html')
 
+# temp during refactor
 @bp.route('/newpickem')
 @login_required
 def newpickem():
+    db = get_db()
+
+    # id, html tag
+    team_dict = getTeamsDict()
+    game_desc = getGames()
+    # id, displayname
+    players = getPlayers()
+    # Dict of Dicts: {player_id: {game_id: team_id} }
+    picks = getPlayerPicksDict()
+
+    return render_template('newpickem.html', game_desc=game_desc, team_dict=team_dict, players=players, picks=picks)
+
+
+
+@bp.route('/newpickem2')
+@login_required
+def pickem2():
     db = get_db()
 
     # list or dict????
@@ -87,4 +106,4 @@ def newpickem():
             headings.append(key)
 
     # need to pass a dictionary...
-    return render_template('newpickem.html', picks = picks, players = players, headings = headings)
+    return render_template('pickem2.html', picks = picks, players = players, headings = headings)

@@ -1,34 +1,47 @@
 {% extends "base.html" %}
+
 {% block content %}
 <div class="container">
     <div class="row">
-        {% for heading in headings %}
+        <div class="col">Player</div>
+        {% for game in game_desc %}
             <div class="col">
-                <div class="col player center">{{ heading }}</div>
+                <div> {{ game['Game'] }}</div>
             </div>
         {% endfor %}
     </div>
-    {% for game in picks %}
-        <div class="row">{{ game['description'] }}</div>
+    <div class="row">
+        <div class="col">Visitor</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Visitor']]|safe }}
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">Home Team</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Home Team']]|safe }}   
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col">Winner</div>
+        {% for game in game_desc %}
+            {{ team_dict[game['Winner']]|safe }}
+        {% endfor %}
+    </div>
+    <div class="row">Player Picks</div>
+
+
+    {% for player in players %}
         <div class="row">
             <div class="col">
-                <img src={{ game['teamvisitor'] }} class="team-pickem"/>
+                {{ player['displayname']}}
             </div>
-            <div class="col">
-                <img src={{ game['teamhome'] }} class="team-pickem"/>
-            </div>
-            <div class="col">
-                <img src={{ game['winner'] }} class="team-pickem"/>
-            </div>
-            {% for player in players %}
-                <div class="col">
-                    <img src={{ game[player[1]] }} class="team-pickem"/>
-                </div>
+            {% for game in game_desc %} 
+                {{ team_dict.get( picks[player['id']][game['id']], team_dict[0] )|safe }}
+
             {% endfor %}
         </div>
-        
     {% endfor %}
 </div>
-
 
 {% endblock %}
