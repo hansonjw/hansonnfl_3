@@ -22,12 +22,7 @@
             <ul class="nav nav-tabs justify-content-end">
                 {% if g.user %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('pickem.oldpickem') }}">
-                            <div>old pick'em</div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="{{ 'nav-link active' if active_page=='pickem' else 'nav-link' }}" href="{{ url_for('pickem.newpickem') }}">
+                        <a class="{{ 'nav-link active' if active_page=='pickem' else 'nav-link' }}" href="{{ url_for('pickem.pickem') }}">
                             <div>pick'em</div>
                         </a>
                     </li>

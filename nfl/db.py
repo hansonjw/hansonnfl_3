@@ -40,3 +40,61 @@ def init_db_command():
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+
+
+# Helper functions...
+def getGames():
+    db=get_db()
+    games = db.execute(
+                '''
+                SELECT id, game_desc AS 'Game', winner AS 'Winner', teamhome AS 'Home Team', teamvisitor AS 'Visitor' FROM game
+                ORDER by id ASC
+                '''
+            ).fetchall()
+    return games
+
+def getTeamsDict():
+    db=get_db()
+    teams = db.execute(
+            '''
+            SELECT id, teamname FROM team
+            ORDER by id ASC
+            '''
+        ).fetchall()
+
+    team_dict = {}
+    for team in teams:
+        if team['id'] == 0:
+            html_tag = "<div class='col'><img src='.././static/nfl.svg' class='team-pickem'></div>"
+        else:
+            html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
+        team_dict[team['id']] = html_tag
+    return team_dict
+
+def getPlayers():
+    db=get_db()
+    players = db.execute(
+        '''
+        SELECT id, displayname FROM user WHERE id <> 0
+        '''
+    ).fetchall()
+    return players
+
+def getPlayerPicksDict():
+    playerPicksDict = {}
+    players = getPlayers()
+    
+    db=get_db()
+
+    for player in players:
+        picksDict = {}
+        rawPicks = db.execute(
+            '''
+            SELECT * FROM pick WHERE user_id=?
+            ''', (player['id'],)
+        ).fetchall()
+        for pick in rawPicks:
+            picksDict[pick['game_id']] = pick['team_id']
+        playerPicksDict[player['id']] = picksDict
+
+    return playerPicksDict

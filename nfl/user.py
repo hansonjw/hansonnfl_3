@@ -8,88 +8,6 @@ from nfl.auth import login_required
 
 bp = Blueprint('user', __name__, url_prefix='/user')
 
-def getGames():
-    db=get_db()
-    games = db.execute(
-                '''
-                SELECT id, game_desc AS 'Game', winner AS 'Winner', teamhome AS 'Home Team', teamvisitor AS 'Visitor' FROM game
-                ORDER by id ASC
-                '''
-            ).fetchall()
-    return games
-
-def getTeamsDict():
-    db=get_db()
-    teams = db.execute(
-            '''
-            SELECT id, teamname FROM team
-            ORDER by id ASC
-            '''
-        ).fetchall()
-
-    team_dict = {}
-    for team in teams:
-        if team['id'] == 0:
-            html_tag = "<div class='col'><img src='.././static/nfl.svg' class='team-pickem'></div>"
-        else:
-            html_tag = "<div class='col'><img src='.././static/" + team['teamname'] + ".png' class='team-pickem'></div>"
-        team_dict[team['id']] = html_tag
-    return team_dict
-
-def getPlayers():
-    db=get_db()
-    players = db.execute(
-        '''
-        SELECT id, displayname FROM user WHERE id <> 0
-        '''
-    ).fetchall()
-    return players
-
-def getPlayerPicksDict():
-    playerPicksDict = {}
-    players = getPlayers()
-    
-    db=get_db()
-
-    for player in players:
-        picksDict = {}
-        rawPicks = db.execute(
-            '''
-            SELECT * FROM pick WHERE user_id=?
-            ''', (player['id'],)
-        ).fetchall()
-        for pick in rawPicks:
-            picksDict[pick['game_id']] = pick['team_id']
-        playerPicksDict[player['id']] = picksDict
-
-    # return a dictionary of dictionaires
-    # playerpicks = db.execute(
-        # '''
-        # SELECT p.game_id, t.teamname FROM pick p
-        # LEFT JOIN team t ON
-        # p.team_id = t.id
-        # WHERE p.user_id=?
-        # ORDER BY p.game_id ASC
-        # ''', (g.user['id'],)
-        '''
-        SELECT * FROM  pick ORDER BY id ASC
-        '''
-    # ).fetchall()
-    # , playerpicks=playerpicks,
-    return playerPicksDict
-
-
-
-@bp.route('/user', methods=('GET', 'POST'))
-@login_required
-def user():
-    db = get_db()
-    user = db.execute(
-        'SELECT * FROM user WHERE id=?', (g.user['id'],)
-    ).fetchall()
-
-    return render_template('user/user.html', user=user)
-
 
 @bp.route('/updateinfo', methods=('GET', 'POST'))
 @login_required
@@ -143,10 +61,9 @@ def updateinfo():
 @bp.route('/updatepicks', methods=('GET', 'POST'))
 @login_required
 def updatepicks():
-
+    error = None
     if request.method=='POST':
         try:
-
             keys = request.form.keys()
             queryStringList = []
             for key in keys:
@@ -157,25 +74,25 @@ def updatepicks():
                 queryStringList.append(f"UPDATE pick SET team_id={tid} WHERE user_id={uid} AND game_id={gid}")
             
             queryString = "; ".join(queryStringList) + ';'
-            print(queryStringList)
-            print(queryString)
 
             db = get_db()
             db.executescript(queryString)
             db.commit()
 
-            return redirect (url_for("pickem.newpickem"))
+            return redirect (url_for("pickem.pickem"))
         except:
-            print("Error...")
-            return redirect (url_for("user.user"))
-
+            error = "Picks not updated...error"
+            print(error)
+            flash(error)
+            return redirect (url_for("user.updatepicks"))
     else:
         try:
             game_desc = getGames()
             team_dict = getTeamsDict()
         except:
-            games = "XXX"
-            print(games)
+            error="error, query functions not executing correctly"
+            print(error)
+            flash(error)
         else:
             pass
         return render_template('user/picks.html', game_desc=game_desc, team_dict=team_dict)
