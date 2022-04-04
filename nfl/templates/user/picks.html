@@ -1,13 +1,21 @@
-{% extends "user/user.html" %}
+{% extends "base.html" %}
+{% set active_page="update_picks" %}
 
-{% block update %}
-<div>This is the page to udpate your picks!!!</div>
+{% block content %}
 
 <div class="container">
     <form method="post">
 
-        <div class="row">
-            <h2>Select new picks below then hit submit</h2>
+        <div class="row conference">
+            <h2>Select new picks below then hit submit to update your picks...</h2>
+        </div>
+        <div class="row header-row">
+            <div class="col heading center">Player</div>
+            {% for game in game_desc %}
+                <div class="col heading center">
+                    <div> {{ game['Game'] }}</div>
+                </div>
+            {% endfor %}
         </div>
         <div class="row">
             <div class="col">

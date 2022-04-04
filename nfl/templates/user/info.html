@@ -1,10 +1,12 @@
-{% extends "user/user.html" %}
+{% extends "base.html" %}
+{% set active_page="update_info" %}
 
-{% block update %}
-<div class="main"></div>
-    <div>This is the page to udpate user information</div>
-    <div class="main">
-        <form class="row g-3 needs-validation" method="post">
+{% block content %}
+
+<div class="container input">
+    <div class="row">This is the page to udpate user information</div>
+    <div class="row">
+        <form class="g-3 needs-validation" method="post">
             <div class="mb-3">
                 <label for="username" class="form-label">Enter a new username</label>
                 <input type="text" class="form-control" name="username" id="username" placeholder="username or email">
@@ -13,10 +15,11 @@
                 <label for="displayname" class="form-label">Enter a new display name</label>
                 <input type="text" class="form-control" name="displayname" id="displayname" placeholder="display name">
             </div>
-            <div class="col-12">
+            <div class="form-group col-12">
                 <input class="btn btn-primary" type="submit" value="Update Info">
             </div>
         </form>
     </div>    
 </div>
+
 {% endblock %}

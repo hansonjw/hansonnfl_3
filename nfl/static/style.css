@@ -115,12 +115,19 @@ body {
     font-size: 1vw;
 }
 
-.player {
+.heading {
     text-align: center;
+    font-size: 1vw;
+}
+
+.header-row {
     border-bottom-style: solid;
     border-bottom-color: lightgrey;
     border-bottom-width: 1px;
-    font-size: 1vw;
+}
+
+.header {
+    margin: auto;
 }
 
 .conference {
@@ -159,9 +166,15 @@ body {
     background-image: radial-gradient(#F1948A, #F1948A, #F1948A, white, white);
 }
 
+.input{
+    max-width: 700px;
+}
 
+.form-group{
+    margin: 2%;
+}
 
-/* ======= radio buttons ========= */
+/* ======= radio buttons for changing picks... ========= */
 
 #radios label {
     cursor: pointer;

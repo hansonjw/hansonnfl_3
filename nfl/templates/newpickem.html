@@ -1,34 +1,37 @@
 {% extends "base.html" %}
+{% set active_page="pickem" %}
 
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col">Player</div>
+    <div class="row header-row">
+        <div class="col heading center">Player</div>
         {% for game in game_desc %}
-            <div class="col">
+            <div class="col heading center">
                 <div> {{ game['Game'] }}</div>
             </div>
         {% endfor %}
     </div>
     <div class="row">
-        <div class="col">Visitor</div>
+        <div class="col header">Visitor</div>
         {% for game in game_desc %}
             {{ team_dict[game['Visitor']]|safe }}
         {% endfor %}
     </div>
     <div class="row">
-        <div class="col">Home Team</div>
+        <div class="col header">Home Team</div>
         {% for game in game_desc %}
             {{ team_dict[game['Home Team']]|safe }}   
         {% endfor %}
     </div>
     <div class="row">
-        <div class="col">Winner</div>
+        <div class="col header">Winner</div>
         {% for game in game_desc %}
             {{ team_dict[game['Winner']]|safe }}
         {% endfor %}
     </div>
-    <div class="row">Player Picks</div>
+    <div class="row header-row">
+        <div class="center">Player Picks</div>
+    </div>
 
 
     {% for player in players %}

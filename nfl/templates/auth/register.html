@@ -1,27 +1,31 @@
 {% extends 'base.html' %}
+{% set active_page="register" %}
 
 {% block header %}
   <h1>{% block title %}Register{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<div class="container main">
-  <form method="post">
-    <div>
-      <label for="username">Username</label>
-      <input name="username" id="username" required>
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" name="password" id="password" required>
-    </div>
-    <div>
-      <label for="displayname">Display Name</label>
-      <input name="displayname" id="displayname" required>
-    </div>
-    <div>
-      <input type="submit" value="Register">
-    </div>
-  </form>
+<div class="container input">
+  <div class="row">Input information below to create an account</div>
+  <div class="row">
+    <form method="post">
+      <div class="mb-3">
+        <label for="username">Username</label>
+        <input name="username" class="form-control" id="username" required>
+      </div>
+      <div class="mb-3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" id="password" required>
+      </div>
+      <div class="mb-3">
+        <label for="displayname">Display Name</label>
+        <input name="displayname" class="form-control" id="displayname" required>
+      </div>
+      <div class="form-group col-12">
+        <input class="btn btn-primary" type="submit"  value="Register">
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

@@ -22,32 +22,33 @@
             <ul class="nav nav-tabs justify-content-end">
                 {% if g.user %}
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="./brackets.html">
-                            <div>brackets</div>
-                        </a>
-                    </li>
-                    <li class="nav-item" aria-current="page">
                         <a class="nav-link" href="{{ url_for('pickem.oldpickem') }}">
                             <div>old pick'em</div>
                         </a>
                     </li>
-                    <li class="nav-item" aria-current="page">
-                        <a class="nav-link" href="{{ url_for('pickem.newpickem') }}">
+                    <li class="nav-item">
+                        <a class="{{ 'nav-link active' if active_page=='pickem' else 'nav-link' }}" href="{{ url_for('pickem.newpickem') }}">
                             <div>pick'em</div>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('user.user') }}">user</a>
-                    </li> 
+                        <a class="{{ 'nav-link active' if active_page=='update_picks' else 'nav-link' }}" href="{{ url_for('user.updatepicks') }}">update picks</a>
+                    </li>                    
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('auth.logout') }}">log out</a>
+                        <a class="{{ 'nav-link active' if active_page=='change_password' else 'nav-link' }}" href="{{ url_for('user.changepassword') }}">change password</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="{{ 'nav-link active' if active_page=='update_info' else 'nav-link' }}" href="{{ url_for('user.updateinfo') }}">user info</a>
+                    </li>  
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('auth.logout') }}">log out</a>
                     </li>    
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('auth.register') }}">Register</a>
+                        <a class="{{ 'nav-link active' if active_page=='register' else 'nav-link' }}" href="{{ url_for('auth.register') }}">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="{{ url_for('auth.login') }}">Log In</a>
+                        <a class="{{ 'nav-link active' if active_page=='login' else 'nav-link' }}" href="{{ url_for('auth.login') }}">Log In</a>
                     </li>
                 {% endif %}
 

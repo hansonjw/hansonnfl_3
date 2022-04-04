@@ -5,15 +5,15 @@ DELETE FROM game;
 DELETE FROM pick;
 
 
-INSERT INTO user VALUES (0, 'admin', 'test', 'Administrator');
-INSERT INTO user VALUES (1, 'ron', 'test', 'Grandpa');
-INSERT INTO user VALUES (2, 'michele', 'test', 'Michele');
-INSERT INTO user VALUES (3, 'ryan', 'test', 'Ryan');
-INSERT INTO user VALUES (4, 'kerry', 'test', 'Kerry');
-INSERT INTO user VALUES (5, 'keira', 'test', 'Keira');
-INSERT INTO user VALUES (6, 'tegan', 'test', 'Tegan');
-INSERT INTO user VALUES (7, 'justin', 'pbkdf2:sha256:260000$ccMfIsnDNYMKiyhd$17967bdcbe6e622016cc8cfee74841aab40e967c1ae84d27e16d970b4634136b', 'Justin');
-INSERT INTO user VALUES (8, 'regina', 'test', 'Regina');
+INSERT INTO user VALUES (0, 'admin', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Administrator');
+INSERT INTO user VALUES (1, 'ron', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Grandpa');
+INSERT INTO user VALUES (2, 'michele', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Michele');
+INSERT INTO user VALUES (3, 'ryan', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Ryan');
+INSERT INTO user VALUES (4, 'kerry', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Kerry');
+INSERT INTO user VALUES (5, 'keira', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Keira');
+INSERT INTO user VALUES (6, 'tegan', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Tegan');
+INSERT INTO user VALUES (7, 'justin', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Justin');
+INSERT INTO user VALUES (8, 'regina', 'pbkdf2:sha256:260000$K9e5DGvEkTnstHSO$50a781927f31b7095bc5b40f2884531b4590737375c70340652adfb244b71482', 'Regina');
 
 INSERT INTO team VALUES(0, 'nfl', 0);
 INSERT INTO team VALUES(1, '49ers', 2);
@@ -37,19 +37,70 @@ INSERT INTO game VALUES(5, 'AFC Championship', 1, "Conference", 5, 2, 2);
 INSERT INTO game VALUES(6, 'NFC Championship', 2, "Conference", 7, 1, 7);
 INSERT INTO game VALUES(7, 'Super Bowl', 0, "Super Bowl", 7, 2, 7);
 
--- Justin's picks
-INSERT INTO pick VALUES(1, 7, 1, 5);
-INSERT INTO pick VALUES(2, 7, 2, 1);
-INSERT INTO pick VALUES(3, 7, 3, 6);
-INSERT INTO pick VALUES(4, 7, 4, 4);
-INSERT INTO pick VALUES(5, 7, 5, 2);
-INSERT INTO pick VALUES(6, 7, 6, 1);
-INSERT INTO pick VALUES(7, 7, 7, 2);
--- Dad's picks
-INSERT INTO pick VALUES(8, 1, 1, 3);
-INSERT INTO pick VALUES(9, 1, 2, 8);
-INSERT INTO pick VALUES(10, 1, 3, 6);
-INSERT INTO pick VALUES(11, 1, 4, 4);
-INSERT INTO pick VALUES(12, 1, 5, 5);
-INSERT INTO pick VALUES(13, 1, 6, 1);
-INSERT INTO pick VALUES(14, 1, 7, 2);
+
+
+
+--Grandpa's picks
+INSERT INTO pick VALUES(1, 1, 1, 3);
+INSERT INTO pick VALUES(2, 1, 2, 8);
+INSERT INTO pick VALUES(3, 1, 3, 6);
+INSERT INTO pick VALUES(4, 1, 4, 4);
+INSERT INTO pick VALUES(5, 1, 5, 5);
+INSERT INTO pick VALUES(6, 1, 6, 7);
+INSERT INTO pick VALUES(7, 1, 7, 2);
+--Michele's picks
+INSERT INTO pick VALUES(8, 2, 1, 0);
+INSERT INTO pick VALUES(9, 2, 2, 0);
+INSERT INTO pick VALUES(10, 2, 3, 0);
+INSERT INTO pick VALUES(11, 2, 4, 0);
+INSERT INTO pick VALUES(12, 2, 5, 0);
+INSERT INTO pick VALUES(13, 2, 6, 0);
+INSERT INTO pick VALUES(14, 2, 7, 2);
+--Ryan's picks
+INSERT INTO pick VALUES(15, 3, 1, 3);
+INSERT INTO pick VALUES(16, 3, 2, 2);
+INSERT INTO pick VALUES(17, 3, 3, 6);
+INSERT INTO pick VALUES(18, 3, 4, 7);
+INSERT INTO pick VALUES(19, 3, 5, 5);
+INSERT INTO pick VALUES(20, 3, 6, 7);
+INSERT INTO pick VALUES(21, 3, 7, 7);
+--Kerry's picks
+INSERT INTO pick VALUES(22, 4, 1, 3);
+INSERT INTO pick VALUES(23, 4, 2, 2);
+INSERT INTO pick VALUES(24, 4, 3, 6);
+INSERT INTO pick VALUES(25, 4, 4, 4);
+INSERT INTO pick VALUES(26, 4, 5, 5);
+INSERT INTO pick VALUES(27, 4, 6, 7);
+INSERT INTO pick VALUES(28, 4, 7, 7);
+--Keira's picks
+INSERT INTO pick VALUES(29, 5, 1, 5);
+INSERT INTO pick VALUES(30, 5, 2, 2);
+INSERT INTO pick VALUES(31, 5, 3, 6);
+INSERT INTO pick VALUES(32, 5, 4, 4);
+INSERT INTO pick VALUES(33, 5, 5, 5);
+INSERT INTO pick VALUES(34, 5, 6, 7);
+INSERT INTO pick VALUES(35, 5, 7, 2);
+--Tegan's picks
+INSERT INTO pick VALUES(36, 6, 1, 3);
+INSERT INTO pick VALUES(37, 6, 2, 2);
+INSERT INTO pick VALUES(38, 6, 3, 1);
+INSERT INTO pick VALUES(39, 6, 4, 4);
+INSERT INTO pick VALUES(40, 6, 5, 5);
+INSERT INTO pick VALUES(41, 6, 6, 1);
+INSERT INTO pick VALUES(42, 6, 7, 2);
+--Justin's picks
+INSERT INTO pick VALUES(43, 7, 1, 3);
+INSERT INTO pick VALUES(44, 7, 2, 2);
+INSERT INTO pick VALUES(45, 7, 3, 6);
+INSERT INTO pick VALUES(46, 7, 4, 4);
+INSERT INTO pick VALUES(47, 7, 5, 5);
+INSERT INTO pick VALUES(48, 7, 6, 1);
+INSERT INTO pick VALUES(49, 7, 7, 2);
+--Regina's picks
+INSERT INTO pick VALUES(50, 8, 1, 5);
+INSERT INTO pick VALUES(51, 8, 2, 2);
+INSERT INTO pick VALUES(52, 8, 3, 6);
+INSERT INTO pick VALUES(53, 8, 4, 4);
+INSERT INTO pick VALUES(54, 8, 5, 5);
+INSERT INTO pick VALUES(55, 8, 6, 1);
+INSERT INTO pick VALUES(56, 8, 7, 2);

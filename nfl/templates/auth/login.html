@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
+{% set active_page="login" %}
 
 {% block header %}
   <h1>{% block title %}Log In{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<div class="container main">
-  <form method="post">
-    <div>
-        <label for="username">Username</label>
-        <input name="username" id="username" required>
-    </div>
-    <div>
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" required>
-    </div>
-    <div>
-        <input type="submit" value="Log In">
-    </div>
-  </form>
+<div class="container input">
+  <div class="row">Input credentials to enter site</div>
+  <div class="row">
+      <form method="post">
+        <div class="mb-3">
+            <label for="username">Username</label>
+            <input name="username" class="form-control" id="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password" required>
+        </div>
+        <div class="form-group col-12">
+            <input class="btn btn-primary" type="submit" value="Log In">
+        </div>
+      </form>
+  </div>
 </div>
 {% endblock %}
