@@ -6,9 +6,7 @@
 <div class="container">
     <form method="post">
 
-        <div class="row conference">
-            <h2>Select new picks below then hit submit to update your picks...</h2>
-        </div>
+        <div class="row center">Click on logos to select new picks below, then hit submit to log your new picks...</div>
         <div class="row header-row">
             <div class="col heading center">Player</div>
             {% for game in game_desc %}
@@ -18,7 +16,7 @@
             {% endfor %}
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col header">
                 <div class="row">Visiting Team</div>
             </div>
             {% for game in game_desc %}
@@ -35,7 +33,7 @@
         </div>
 
         <div class="row">
-            <div class="col">
+            <div class="col header">
                 <div class="row">Home Team</div>      
             </div>
             {% for game in game_desc %}
@@ -52,8 +50,8 @@
         </div>
 
         <div class="row">
-            <div class="col-3">
-                <input type="submit"/>
+            <div class="col form-group">
+                <input class="btn btn-primary" type="submit"/>
             </div>
         </div>
 

@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash, generate_password_hash
-from nfl.db import get_db
+from nfl.db import get_db, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
 from nfl.auth import login_required
 
 bp = Blueprint('user', __name__, url_prefix='/user')
