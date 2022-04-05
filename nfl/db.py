@@ -1,5 +1,6 @@
 # This is a python module that interfaces with SQLITE...not to be confused with SQLite itself which is written in C
 import sqlite3
+# db.execute and other methods are SQLITE...need to convert this all to SQLAlchemy, I believe
 
 import click
 from flask import current_app, g
