@@ -53,7 +53,7 @@
     </nav>
     <div class="main">
         {% for message in get_flashed_messages() %}
-            <div class="flash">{{ message }}</div>
+        <div class="container flash">{{ message }}</div>
         {% endfor %}
         {% block content %}
         {% endblock %}

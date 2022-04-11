@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from werkzeug.security import check_password_hash, generate_password_hash
-from nfl.db import get_db, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
+from nfl.db import db, User, League, Team, Game, Pick, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
 from nfl.auth import login_required
 
 bp = Blueprint('user', __name__, url_prefix='/user')
@@ -16,8 +16,7 @@ def updateinfo():
     if request.method == 'POST':
         username = request.form['username']
         displayname = request.form['displayname']
-    
-        db = get_db()
+        u = User.query.get(g.user.id)
         error = None
 
         if not username and not displayname:
@@ -25,33 +24,17 @@ def updateinfo():
         
         if error is None:
             try:
-                if username!= "" and displayname != "":
-                    db.execute(
-                        "UPDATE user SET username=?, displayname=? WHERE id=?",
-                        (username, displayname, g.user['id'])
-                    )
-                    db.commit()
-                elif username!= "":
-                    db.execute(
-                        "UPDATE user SET username=? WHERE id=?",
-                        (username, g.user['id'])
-                    )
-                    db.commit()
-                elif displayname!= "":
-                    db.execute(
-                        "UPDATE user SET displayname=? WHERE id=?",
-                        (displayname, g.user['id'])
-                    )
-                    db.commit()
-                else:
-                    print("ERROR...somethings up")
-                    print(username, type(username), len(username))
-                    print(displayname, type(displayname), len(displayname)) 
+                if username!= "":
+                    u.username=username
+                    flash(f"Your username was updated successfully to: {u.username}")
+                if displayname!= "":
+                    u.displayname=displayname
+                    flash(f"Your diplayname was updated successfully to: {u.displayname}")
+                db.session.commit() 
             except db.IntegrityError:
                 error = f"User {username} or Display Name {displayname} is already registered."
             else:
-                return redirect(url_for("user.user"))
-
+                return redirect(url_for("pickem.pickem"))
 
         flash(error)
 
@@ -65,20 +48,14 @@ def updatepicks():
     if request.method=='POST':
         try:
             keys = request.form.keys()
-            queryStringList = []
             for key in keys:
                 tid = int(request.form[key])
-                uid = g.user['id']
+                uid = g.user.id
                 gid = int(key)
-
-                queryStringList.append(f"UPDATE pick SET team_id={tid} WHERE user_id={uid} AND game_id={gid}")
-            
-            queryString = "; ".join(queryStringList) + ';'
-
-            db = get_db()
-            db.executescript(queryString)
-            db.commit()
-
+                pick = Pick(user_id=uid, game_id=gid, team_id=tid)
+                db.session.add(pick)
+            db.session.commit()
+            flash("Picks were updated successfully!")
             return redirect (url_for("pickem.pickem"))
         except:
             error = "Picks not updated...error"
@@ -106,23 +83,19 @@ def changepassword():
         pwhash = generate_password_hash( request.form['newpassword_1'] )
         pwconfirm = check_password_hash(pwhash, request.form['newpassword_2'])
         error = None
-        db = get_db()
+        u = User.query.get(g.user.id)
 
         if not pwconfirm:
             error = 'Password and confirmation password must match. Please try again.'
 
         if error is None:
             try:
-                db.execute(
-                    "UPDATE user SET pwhash=? WHERE id=?",
-                    (pwhash, g.user['id'])
-                )
-                db.commit()
+                u.pwhash = pwhash
+                db.session.commit()
             except db.IntegrityError:
                 error = "something went wrong, new password not logged"
             else:
-                return redirect (url_for("user.user"))
-        
+                flash("Your password was updated successfully")
+                return redirect (url_for("pickem.pickem"))
         flash(error)
-
     return render_template('user/password.html')

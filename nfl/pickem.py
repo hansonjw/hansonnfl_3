@@ -2,7 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
-from nfl.db import get_db, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
+from nfl.db import db, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
 from nfl.auth import login_required
 
 bp = Blueprint('pickem', __name__)
@@ -17,8 +17,7 @@ def index():
 @bp.route('/pickem')
 @login_required
 def pickem():
-    db = get_db()
-
+    
     # id, html tag
     team_dict = getTeamsDict()
     game_desc = getGames()

@@ -1,38 +1,45 @@
 import functools
 from flask import (Blueprint, flash, g, redirect, render_template, request, session, url_for)
 from werkzeug.security import check_password_hash, generate_password_hash
-from nfl.db import get_db, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
+from nfl.db import db, User, League, Team, Game, Pick, getGames, getTeamsDict, getPlayers, getPlayerPicksDict
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
+
+
+def log_user_in(u):
+    session.clear()
+    session['user_id'] = u.id
+    return
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        displayname = request.form['displayname']
-
-        db = get_db()
+        form_unm = request.form['username']
+        form_pwh = generate_password_hash(request.form['password'])
+        form_dsn = request.form['displayname']
         error = None
-
-        if not username:
+        
+        if not form_unm:
             error = 'Username is required.'
-        elif not password:
+        elif not form_pwh:
             error = 'Password is required.'
-        elif not displayname:
+        elif not form_dsn:
             error = 'Display Name is required.'
 
         if error is None:
             try:
-                db.execute(
-                    "INSERT INTO user (username, pwhash, displayname) VALUES (?, ?, ?)",
-                    (username, generate_password_hash(password), displayname),
-                )
-                db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
+                newUser = User(username=form_unm, pwhash=form_pwh, displayname=form_dsn)
+                print(newUser)
+                print(form_unm, form_pwh, form_dsn)
+                db.session.add(newUser)
+                db.session.commit()
+            except:
+                error = f"User {form_unm} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                # add some logic here to log the user in and redirect to index...see login route
+                log_user_in(newUser)
+                flash(f"Hello {newUser.displayname}, welcome to the Hanson NFL pickem site")
+                return redirect(url_for('index'))
 
         flash(error)
 
@@ -42,22 +49,19 @@ def register():
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
     if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        db = get_db()
+        form_unm = request.form['username']
+        form_pwd = request.form['password']
+        
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+        user = User.query.filter_by(username=form_unm).first()
 
         if user is None:
             error = 'Incorrect username.'
-        elif not check_password_hash(user['pwhash'], password):
+        elif not check_password_hash(user.pwhash, form_pwd):
             error = 'Incorrect password.'
 
         if error is None:
-            session.clear()
-            session['user_id'] = user['id']
+            log_user_in(user)
             return redirect(url_for('index'))
 
         flash(error)
@@ -65,6 +69,7 @@ def login():
     return render_template('auth/login.html')
 
 
+# This decorator ensures this function is run before each request...
 @bp.before_app_request
 def load_logged_in_user():
     user_id = session.get('user_id')
@@ -72,14 +77,13 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
-        ).fetchone()
+        g.user = User.query.filter_by(id=user_id).first()
 
 
 @bp.route('/logout')
 def logout():
     session.clear()
+    flash('You have just been logged out')
     return redirect(url_for('auth.login'))
 
 
