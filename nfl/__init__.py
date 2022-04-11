@@ -2,12 +2,25 @@ import os
 from flask import Flask
 from . import db
 
+import os
+import re
+
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+# rest of connection code using the connection string `uri`
+
 
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
+    uri = os.getenv("DATABASE_URL")  # or other relevant config var
+    if uri.startswith("postgres://"):   
+        uri = uri.replace("postgres://", "postgresql://", 1)
+
+# rest of connection code using the connection string `uri`
     app.config.from_mapping(
         SECRET_KEY = os.environ.get('SECRET_KEY'),
-        SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///./../instance/nfl.db',
+        SQLALCHEMY_DATABASE_URI = uri or 'sqlite:///./../instance/nfl.db',
         SQLALCHEMY_TRACK_MODIFICATIONS = False 
         # os.path.join('sqlite:////', app.instance_path, 'nfl.db'),
         # DATABASE=os.path.join(app.instance_path, 'nfl.sqlite')
