@@ -29,8 +29,6 @@ def register():
         if error is None:
             try:
                 newUser = User(username=form_unm, pwhash=form_pwh, displayname=form_dsn)
-                print(newUser)
-                print(form_unm, form_pwh, form_dsn)
                 db.session.add(newUser)
                 db.session.commit()
             except:

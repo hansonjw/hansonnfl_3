@@ -1,6 +1,6 @@
 # database seeding
-db_seed/
-seed_db.py
+*.db_seed/
+*.seed_db.py
 seed.sql
 
 # Byte-compiled / optimized / DLL files
